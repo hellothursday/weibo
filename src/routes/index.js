@@ -1,19 +1,54 @@
 const router = require('koa-router')()
 
+// eslint-disable-next-line no-unused-vars
 router.get('/', async (ctx, next) => {
-  await ctx.render('index', {
-    title: 'Hello Koa 2!'
-  })
+    await ctx.render('index', {
+        title: 'Hello Koa 2!',
+        me: true,
+        blogList: [
+            {
+                id: 1,
+                title: 'aaa'
+            },
+            {
+                id: 2,
+                title: 'bbb'
+            }
+        ]
+    })
 })
 
-router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
-})
-
+// eslint-disable-next-line no-unused-vars
 router.get('/json', async (ctx, next) => {
-  ctx.body = {
-    title: 'koa2 json'
-  }
+    const session = ctx.session
+    if (session.views == null) {
+        session.views = 0
+    }
+    const views = ++session.views
+    const title = 'koa2 json'
+    ctx.body = {
+        title,
+        views
+    }
+})
+
+// eslint-disable-next-line no-unused-vars
+router.get('/profile/:username', async (ctx, next) => {
+    const {username} = ctx.params
+    ctx.body = {
+        title: 'this is profile page',
+        username
+    }
+})
+
+// eslint-disable-next-line no-unused-vars
+router.get('/load/:username/:page', async (ctx, next) => {
+    const {username, page = 1} = ctx.params
+    ctx.body = {
+        title: 'this is load page',
+        username,
+        page
+    }
 })
 
 module.exports = router
