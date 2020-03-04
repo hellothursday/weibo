@@ -8,13 +8,14 @@
 const {ConnectionError, DatabaseError} = require('sequelize')
 
 const seq = require('./seq')
-// require('./model')
+require('./models')
 
 !(async () => {
     try {
-        await seq.authenticate()
+        console.log('测试连接', await seq.authenticate())
         console.log('连接成功')
-        await seq.sync({force: true})
+        console.log('测试同步', await seq.sync({force: true}))
+        console.log('同步成功')
         process.exit()
     } catch (e) {
         if (e instanceof ConnectionError) {
@@ -22,7 +23,7 @@ const seq = require('./seq')
         } else if (e instanceof DatabaseError) {
             console.error('数据库错误', e)
         } else {
-            console.error('发送错误', e)
+            console.error('发生错误', e)
         }
     }
 })()

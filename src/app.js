@@ -11,7 +11,8 @@ const {host, port} = require('./config/db').REDIS_CONFIG
 const env = require('./utils/env')
 
 const index = require('./routes')
-const users = require('./routes/users')
+const userView = require('./routes/view/user')
+const userApi = require('./routes/api/user')
 const error404 = require('./routes/view/error')
 
 // error handler
@@ -57,7 +58,8 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(userView.routes(), userView.allowedMethods())
+app.use(userApi.routes(), userApi.allowedMethods())
 /* error && 404 */
 app.use(error404.routes(), error404.allowedMethods())
 
