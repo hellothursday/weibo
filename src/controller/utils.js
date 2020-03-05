@@ -29,6 +29,7 @@ const MAX_SIZE = 1024 * 1024 * 1024
  * @param filePath 文件路径
  * @returns {Promise<void>}
  */
+// eslint-disable-next-line no-unused-vars
 async function saveFile({name, type, size, filePath}) {
     if (size > MAX_SIZE) {
         await fs.remove(filePath)
