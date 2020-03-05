@@ -31,14 +31,47 @@ async function getUserInfo(username, password) {
 
     if (result == null) {
         // 未找到
-        return result
+        return null
     }
 
+    // 找到了
     // 格式化
     const formatRes = formatUser(result.dataValues)
     return formatRes
 }
 
+/**
+ * 创建用户
+ * @param username 用户名
+ * @param password 密码
+ * @param gender 性别
+ * @param nickname 昵称
+ * @returns {Promise<void>}
+ */
+async function createUser({username, password, gender = 3, nickname}) {
+    if (nickname == null) {
+        nickname = username
+    }
+    const result = await User.create({
+        username,
+        password,
+        gender,
+        nickname
+    })
+    return result.dataValues
+}
+
+async function removeUser(username) {
+    const rows = await User.destroy({
+        where: {
+            username
+        }
+    })
+    return rows > 0
+}
+
 module.exports = {
-    getUserInfo
+    getUserInfo,
+    createUser,
+    removeUser
 }

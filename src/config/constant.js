@@ -4,5 +4,5 @@
  */
 
 module.exports = {
-    DEFAULT_AVATAR: 'https://dwz.cn/rnTnftZs'
+    DEFAULT_AVATAR: '/images/avatar.png',
 }

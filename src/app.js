@@ -9,6 +9,7 @@ const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 const {host, port} = require('./config/db').REDIS_CONFIG
 const env = require('./utils/env')
+const {SESSION_KEY} = require('./config/keys')
 
 const index = require('./routes')
 const userView = require('./routes/view/user')
@@ -25,7 +26,11 @@ app.use(bodyparser({
     enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
-app.use(logger())
+
+if (!env.test) {
+    app.use(logger())
+}
+
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
@@ -33,7 +38,7 @@ app.use(views(__dirname + '/views', {
 }))
 
 // session 配置
-app.keys = ['ADSdhkjhfka89574$#$523_FASahasdHDsklfHFSD^9857Fareq']
+app.keys = [SESSION_KEY]
 app.use(session({
     key: 'weibo.sid',
     prefix: 'weibo:sess:',
@@ -48,13 +53,15 @@ app.use(session({
     })
 }))
 
-// logger
-app.use(async (ctx, next) => {
-    const start = new Date()
-    await next()
-    const ms = new Date() - start
-    console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-})
+if (!env.test) {
+    // logger
+    app.use(async (ctx, next) => {
+        const start = new Date()
+        await next()
+        const ms = new Date() - start
+        console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+    })
+}
 
 // routes
 app.use(index.routes(), index.allowedMethods())

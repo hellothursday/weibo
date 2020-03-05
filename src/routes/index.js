@@ -1,7 +1,8 @@
 const router = require('koa-router')()
+const {loginGuard4Error, loginGuard4Redirect} = require('../middlewares/login-guards')
 
 // eslint-disable-next-line no-unused-vars
-router.get('/', async (ctx, next) => {
+router.get('/', loginGuard4Error, async (ctx, next) => {
     await ctx.render('index', {
         title: 'Hello Koa 2!',
         me: true,
@@ -19,7 +20,7 @@ router.get('/', async (ctx, next) => {
 })
 
 // eslint-disable-next-line no-unused-vars
-router.get('/json', async (ctx, next) => {
+router.get('/json', loginGuard4Redirect, async (ctx, next) => {
     const session = ctx.session
     if (session.views == null) {
         session.views = 0
