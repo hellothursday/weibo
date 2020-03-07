@@ -97,7 +97,7 @@
             var city = $inputCity.val()
             var avatar = $imgPicture.attr('src')
 
-            ajax.patch('/api/user/changeInfo', {
+            ajax.patch('/api/user/change-info', {
                 nickname,
                 city,
                 avatar
@@ -129,7 +129,7 @@
                 return
             }
 
-            ajax.patch('/api/user/changePassword', {
+            ajax.patch('/api/user/change-password', {
                 password: curPassword,
                 newPassword: newPassword
             }, function (err, data) {
