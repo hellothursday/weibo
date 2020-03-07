@@ -13,7 +13,8 @@ const {host, port} = require('./config/db').REDIS_CONFIG
 const env = require('./utils/env')
 const {SESSION_KEY} = require('./config/keys')
 
-const index = require('./routes')
+const blogView = require('./routes/view/blog')
+const blogApi = require('./routes/api/blog')
 const utilsApi = require('./routes/api/utils')
 const userView = require('./routes/view/user')
 const userApi = require('./routes/api/user')
@@ -68,7 +69,8 @@ if (!env.test) {
 }
 
 // routes
-app.use(index.routes(), index.allowedMethods())
+app.use(blogView.routes(), blogView.allowedMethods())
+app.use(blogApi.routes(), blogApi.allowedMethods())
 app.use(utilsApi.routes(), utilsApi.allowedMethods())
 app.use(userView.routes(), userView.allowedMethods())
 app.use(userApi.routes(), userApi.allowedMethods())
