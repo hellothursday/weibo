@@ -8,7 +8,6 @@ const server = require('../server')
 const username = `u_${Date.now()}`
 const password = `p_${Date.now()}`
 const nickname = username
-// const gender = Math.floor(Math.random() * (3 - 1 + 1) + 1)
 const gender = 1
 
 const user = {
@@ -110,3 +109,4 @@ test('查询已删除的用户，应该不存在', async () => {
         .send({username})
     expect(res.body.errno).not.toBe(0)
 })
+

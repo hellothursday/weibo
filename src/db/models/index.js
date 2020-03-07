@@ -7,7 +7,9 @@ const User = require('./User')
 const Blog = require('./Blog')
 
 Blog.belongsTo(User, {
-    foreignKey: 'userId'
+    foreignKey: 'userId',
+    onDelete: 'CASCADE', // 级联删除
+    onUpdate: 'CASCADE' // 级联更新
 })
 
 /*User.hasMany(Blog, {
