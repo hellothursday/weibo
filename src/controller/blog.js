@@ -5,6 +5,7 @@
 
 const {createBlog} = require('../services/blog')
 const {SuccessModel, ErrorModel} = require('../models/ResponseModel')
+const xss = require('xss')
 const {CREATE_BLOG_FAIL} = require('../models/errors')
 
 /**
@@ -15,7 +16,7 @@ const {CREATE_BLOG_FAIL} = require('../models/errors')
  * @returns {Promise<void>}
  */
 async function create({userId, content, image}) {
-    // service
+    content = xss(content)
     try {
         // 创建blog
         const blog = await createBlog({
