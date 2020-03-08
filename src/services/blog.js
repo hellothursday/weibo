@@ -20,14 +20,14 @@ async function createBlog({userId, content, image}) {
  * @param size 每页显示的条数
  * @returns {Promise<void>}
  */
-async function getBlogListByUser({username, page = 0, size = 10}) {
+async function getBlogListByUser({username, page = 0, pageSize = 10}) {
     const where = {}
     if (username) {
         where.username = username
     }
     const result = await Blog.findAndCountAll({
-        limit: size,
-        offset: page * size,
+        limit: pageSize,
+        offset: page * pageSize,
         order: [
             ['id', 'desc']
         ],

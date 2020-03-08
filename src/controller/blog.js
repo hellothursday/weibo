@@ -39,20 +39,22 @@ async function create({userId, content, image}) {
  * @returns {Promise<void>}
  */
 async function getProfileBlogList(username, page = 0) {
+    const pageSize = PAGE_SIZE
     const result = await getBlogListByUser({
         username,
         page,
-        size: PAGE_SIZE
+        pageSize
     })
     const blogList = result.blogList
+    const isEmpty = blogList.length === 0
+    const count = result.count
     return new SuccessModel({
-        isEmpty: blogList.length === 0,
+        isEmpty,
         blogList,
-        pageSize: PAGE_SIZE,
+        pageSize,
         page,
-        count: result.count
+        count
     })
-
 }
 
 module.exports = {

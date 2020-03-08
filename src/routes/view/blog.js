@@ -41,6 +41,7 @@ router.get('/profile/:username', loginGuard4Redirect, async ctx => {
         userInfo = res.data
     }
 
+    // 获取微博第一页数据
     const result = await getProfileBlogList(username, 0)
     const {isEmpty, blogList, pageSize, page, count} = result.data
     await ctx.render('profile', {
