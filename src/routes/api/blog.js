@@ -17,4 +17,6 @@ router.post('/create', loginGuard4Error, genValidator(blogValidate), async ctx =
     ctx.body = await create({userId, content, image})
 })
 
+
+
 module.exports = router

@@ -3,10 +3,11 @@
  * @author qe
  */
 
-const {createBlog} = require('../services/blog')
+const {createBlog, getBlogListByUser} = require('../services/blog')
 const {SuccessModel, ErrorModel} = require('../models/ResponseModel')
 const xss = require('xss')
 const {CREATE_BLOG_FAIL} = require('../models/errors')
+const {PAGE_SIZE} = require('../config/constant')
 
 /**
  * 创建微博
@@ -31,6 +32,30 @@ async function create({userId, content, image}) {
     }
 }
 
+/**
+ * 获取个人主页微博列表
+ * @param username 用户名
+ * @param page 当前页数
+ * @returns {Promise<void>}
+ */
+async function getProfileBlogList(username, page = 0) {
+    const result = await getBlogListByUser({
+        username,
+        page,
+        size: PAGE_SIZE
+    })
+    const blogList = result.blogList
+    return new SuccessModel({
+        isEmpty: blogList.length === 0,
+        blogList,
+        pageSize: PAGE_SIZE,
+        page,
+        count: result.count
+    })
+
+}
+
 module.exports = {
-    create
+    create,
+    getProfileBlogList
 }

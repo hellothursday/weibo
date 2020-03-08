@@ -15,6 +15,7 @@ const {SESSION_KEY} = require('./config/keys')
 
 const blogView = require('./routes/view/blog')
 const blogApi = require('./routes/api/blog')
+const profileApi = require('./routes/api/profile')
 const utilsApi = require('./routes/api/utils')
 const userView = require('./routes/view/user')
 const userApi = require('./routes/api/user')
@@ -71,6 +72,7 @@ if (!env.test) {
 // routes
 app.use(blogView.routes(), blogView.allowedMethods())
 app.use(blogApi.routes(), blogApi.allowedMethods())
+app.use(profileApi.routes(), profileApi.allowedMethods())
 app.use(utilsApi.routes(), utilsApi.allowedMethods())
 app.use(userView.routes(), userView.allowedMethods())
 app.use(userApi.routes(), userApi.allowedMethods())

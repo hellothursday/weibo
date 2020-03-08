@@ -5,4 +5,5 @@
 
 module.exports = {
     DEFAULT_AVATAR: '/images/avatar.png',
+    PAGE_SIZE: 5
 }

@@ -5,13 +5,11 @@
 
 const router = require('koa-router')()
 
-// eslint-disable-next-line no-unused-vars
-router.get('/error', async (ctx, next) => {
+router.get('/error', async ctx => {
     await ctx.render('error')
 })
 
-// eslint-disable-next-line no-unused-vars
-router.get('*', async (ctx, next) => {
+router.get('*', async ctx => {
     await ctx.render('404')
 })
 
