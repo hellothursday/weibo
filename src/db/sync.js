@@ -10,7 +10,7 @@ const {ConnectionError, DatabaseError} = require('sequelize')
 const seq = require('./seq')
 require('./models')
 
-!(async () => {
+async function sync() {
     try {
         console.log('测试连接', await seq.authenticate())
         console.log('连接成功')
@@ -26,4 +26,6 @@ require('./models')
             console.error('发生错误', e)
         }
     }
-})()
+}
+
+module.exports = sync
