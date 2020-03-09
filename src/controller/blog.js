@@ -8,6 +8,7 @@ const {SuccessModel, ErrorModel} = require('../models/ResponseModel')
 const xss = require('xss')
 const {CREATE_BLOG_FAIL} = require('../models/errors')
 const {PAGE_SIZE} = require('../config/constant')
+const {getSquareCacheList} = require('../cache/blog')
 
 /**
  * 创建微博
@@ -57,7 +58,29 @@ async function getProfileBlogList(username, page = 0) {
     })
 }
 
+/**
+ * 获取微博广场微博列表
+ * @param page 当前页数
+ * @returns {Promise<void>}
+ */
+async function getSquareBlogList(page = 0) {
+    const pageSize = PAGE_SIZE
+    const result = await getSquareCacheList(page, pageSize)
+    
+    const blogList = result.blogList
+    const isEmpty = blogList.length === 0
+    const count = result.count
+    return new SuccessModel({
+        isEmpty,
+        blogList,
+        pageSize,
+        page,
+        count
+    })
+}
+
 module.exports = {
     create,
-    getProfileBlogList
+    getProfileBlogList,
+    getSquareBlogList
 }
