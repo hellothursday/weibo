@@ -86,6 +86,20 @@ test('个人主页，加载第一页数据，应该成功', async () => {
     expect(data).toHaveProperty('count')
 })
 
+// 广场，加载第一页数据
+test('广场，加载第一页数据', async () => {
+    const res = await server
+        .get(`/api/square/load-more/0`)
+        .set('cookie', COOKIE)  // 设置 cookie
+    expect(res.body.errno).toBe(0)
+    const data = res.body.data
+    expect(data).toHaveProperty('isEmpty')
+    expect(data).toHaveProperty('blogList')
+    expect(data).toHaveProperty('pageSize')
+    expect(data).toHaveProperty('page')
+    expect(data).toHaveProperty('count')
+})
+
 // 删除用户并退出
 test('删除用户并退出', async () => {
     // 删除用户，并级联删除blog
