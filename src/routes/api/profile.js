@@ -6,6 +6,7 @@
 const router = require('koa-router')()
 const {loginGuard4Error} = require('../../middlewares/login-guards')
 const {getProfileBlogList} = require('../../controller/blog')
+const {follow, unfollow} = require('../../controller/userrelation')
 const {getBlogListStr} = require('../../utils/blog')
 
 router.prefix('/api/profile')
@@ -19,6 +20,22 @@ router.get('/load-more/:username/:page', loginGuard4Error, async ctx => {
     // 渲染为 html 字符串
     result.data.blogListTpl = getBlogListStr(result.data.blogList)
     ctx.body = result
+})
+
+// 关注
+router.post('/follow', loginGuard4Error, async ctx => {
+    const {id: userId} = ctx.session.userInfo
+    const {userId: idolId} = ctx.request.body
+    // controller
+    ctx.body = await follow(userId, idolId)
+})
+
+// 取消关注
+router.post('/unfollow', loginGuard4Error, async ctx => {
+    const {id: userId} = ctx.session.userInfo
+    const {userId: idolId} = ctx.request.body
+    // controller
+    ctx.body = await unfollow(userId, idolId)
 })
 
 module.exports = router

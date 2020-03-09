@@ -54,6 +54,10 @@ router.get('/profile/:username', loginGuard4Redirect, async ctx => {
         list: followerList
     }
 
+    const amIFollowed = followerList.some(item => {
+        return item.username === curUsername
+    })
+
     await ctx.render('profile', {
         blogData: {
             isEmpty,
@@ -65,7 +69,8 @@ router.get('/profile/:username', loginGuard4Redirect, async ctx => {
         userData: {
             userInfo,
             isMe,
-            fansData
+            fansData,
+            amIFollowed
         }
     })
 })

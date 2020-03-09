@@ -3,8 +3,9 @@
  * @author qe
  */
 
-const {getFollowersByIdol} = require('../services/userrelation')
-const {SuccessModel} = require('../models/ResponseModel')
+const {getFollowersByIdol, addFollow, removeFollow} = require('../services/userrelation')
+const {SuccessModel, ErrorModel} = require('../models/ResponseModel')
+const {ADD_FOLLOWER_FAIL, DELETE_FOLLOWER_FAIL} = require('../models/errors')
 
 /**
  * 根据 userId 获取粉丝
@@ -19,6 +20,42 @@ async function getFollowers(userId) {
     })
 }
 
+
+/**
+ * 关注
+ * @param userId 当前用户 ID
+ * @param idolId 被关注者的 ID
+ * @returns {Promise<void>}
+ */
+async function follow(userId, idolId) {
+    try {
+        await addFollow(userId, idolId)
+        return new SuccessModel()
+    } catch (e) {
+        console.error(e.message, e.stack)
+        return new ErrorModel(ADD_FOLLOWER_FAIL)
+    }
+}
+
+/**
+ * 取消关注
+ * @param userId 当前用户 ID
+ * @param idolId 被关注者的 ID
+ * @returns {Promise<void>}
+ */
+async function unfollow(userId, idolId) {
+    const result = await removeFollow(userId, idolId)
+    if (result) {
+        // 删除成功
+        return new SuccessModel()
+    }
+    // 删除失败
+    return new ErrorModel(DELETE_FOLLOWER_FAIL)
+}
+
+
 module.exports = {
-    getFollowers
+    getFollowers,
+    follow,
+    unfollow
 }
